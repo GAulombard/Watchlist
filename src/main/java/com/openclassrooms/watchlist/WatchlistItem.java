@@ -1,15 +1,20 @@
 package com.openclassrooms.watchlist;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /**
  * The type Watch list item.
  */
-public class WatchListItem {
+public class WatchlistItem {
 
+    @NotBlank(message="Please enter the title")
     private String title;
     private String rating;
     private String priority;
+    @Size(max=50, message = "Comment should be maximum 50 characters")
     private String comment;
-    private int id;
+    private Integer id;
 
     /**
      * Instantiates a new Watch list item.
@@ -20,7 +25,7 @@ public class WatchListItem {
      * @param comment  the comment
      * @param id       the id
      */
-    public WatchListItem(String title, String rating, String priority, String comment, int id) {
+    public WatchlistItem(String title, String rating, String priority, String comment, Integer id) {
         this.title = title;
         this.rating = rating;
         this.priority = priority;
@@ -28,7 +33,10 @@ public class WatchListItem {
         this.id = id;
     }
 
-    public WatchListItem() {
+    /**
+     * Instantiates a new Watchlist item.
+     */
+    public WatchlistItem() {
 
     }
 
@@ -110,7 +118,7 @@ public class WatchListItem {
      *
      * @return id id
      */
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
@@ -119,7 +127,7 @@ public class WatchListItem {
      *
      * @param id the id
      */
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

@@ -48,12 +48,12 @@
 		        </tr>
 		    </thead>
 			<tbody>
-				<tr th:each="watchListItems: ${watchListItems}">
-		            <td th:text="${watchListItems.title}"></td>
-		            <td th:text="${watchListItems.rating}"></td>
-		            <td th:text="${watchListItems.priority}"></td>
-		            <td th:text="${watchListItems.comment}"></td>
-					<td><a href="#" class="btn btn-info" role="button">Update</a></td>
+				<tr th:each="watchlistItems: ${watchlistItems}">
+		            <td th:text="${watchlistItems.title}"></td>
+		            <td th:text="${watchlistItems.rating}"></td>
+		            <td th:text="${watchlistItems.priority}"></td>
+		            <td th:text="${watchlistItems.comment}"></td>
+					<td><a th:href="@{/watchlistItemForm(id=${watchlistItems.id})}" href="#" class="btn btn-info" role="button">Update</a></td>
 				</tr>
 			</tbody>
 		</table>
