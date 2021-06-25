@@ -28,6 +28,10 @@ public class WatchListItem {
         this.id = id;
     }
 
+    public WatchListItem() {
+
+    }
+
 
     /**
      * get field
