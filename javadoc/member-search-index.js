@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"com.openclassrooms.watchlist","c":"WatchlistApplication","l":"main(String[])","url":"main(java.lang.String[])"},{"p":"com.openclassrooms.watchlist","c":"WatchlistApplication","l":"WatchlistApplication()","url":"%3Cinit%3E()"}]
