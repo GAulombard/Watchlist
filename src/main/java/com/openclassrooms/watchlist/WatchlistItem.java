@@ -13,6 +13,7 @@ public class WatchlistItem {
 
     @NotBlank(message="Please enter the title")
     private String title;
+    @Rating
     private String rating;
     @Priority
     private String priority;
