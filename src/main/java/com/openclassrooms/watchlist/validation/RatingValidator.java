@@ -1,8 +1,11 @@
-package com.openclassrooms.watchlist;
+package com.openclassrooms.watchlist.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * The type Rating validator.
+ */
 public class RatingValidator implements ConstraintValidator<Rating, String> {
     public void initialize(Rating constraint) {
     }

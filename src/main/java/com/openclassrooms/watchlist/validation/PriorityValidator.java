@@ -1,9 +1,11 @@
-package com.openclassrooms.watchlist;
+package com.openclassrooms.watchlist.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Locale;
 
+/**
+ * The type Priority validator.
+ */
 public class PriorityValidator implements ConstraintValidator<Priority, String> {
 
 

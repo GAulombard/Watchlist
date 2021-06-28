@@ -1,9 +1,11 @@
-package com.openclassrooms.watchlist;
+package com.openclassrooms.watchlist.controller;
 
+import com.openclassrooms.watchlist.domain.WatchlistItem;
+import com.openclassrooms.watchlist.exception.DuplicateTitleException;
+import com.openclassrooms.watchlist.service.WatchlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,8 +23,7 @@ import java.util.Map;
 @Controller
 public class WatchlistController {
 
-    private List<WatchlistItem> watchlistItems = new ArrayList<>();
-    private static Integer index = 1;
+    private WatchlistService watchlistService = new WatchlistService();
 
     /**
      * Show watchlist item form model and view.
@@ -34,22 +35,14 @@ public class WatchlistController {
     public ModelAndView showWatchlistItemForm(@RequestParam(required = false) Integer id) {
         Map<String, Object> model = new HashMap<>();
 
-        WatchlistItem watchlistItem = findWatchlistItemById(id);
+        WatchlistItem watchlistItem = watchlistService.findWatchlistItemsById(id);
+
         if (watchlistItem == null) {
             model.put("watchlistItem", new WatchlistItem());
         } else {
             model.put("watchlistItem", watchlistItem);
         }
         return new ModelAndView("watchlistItemForm", model);
-    }
-
-    private WatchlistItem findWatchlistItemById(Integer id) {
-        for (WatchlistItem watchlistItem : watchlistItems) {
-            if (watchlistItem.getId().equals(id)) {
-                return watchlistItem;
-            }
-        }
-        return null;
     }
 
     /**
@@ -62,23 +55,16 @@ public class WatchlistController {
     @PostMapping("/watchlistItemForm")
     public ModelAndView submitWatchlistItemForm(@Valid WatchlistItem watchlistItem, BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return new ModelAndView("watchlistItemForm");
         }
 
-        WatchlistItem existingItem = findWatchlistItemById(watchlistItem.getId());
-
-
-        if(existingItem == null) {
-            watchlistItem.setId(index++);
-            watchlistItems.add(watchlistItem);
-        }else{
-            existingItem.setComment(watchlistItem.getComment());
-            existingItem.setPriority(watchlistItem.getPriority());
-            existingItem.setRating(watchlistItem.getRating());
-            existingItem.setTitle(watchlistItem.getTitle());
+        try {
+            watchlistService.addOrUpdateWatchlistItem(watchlistItem);
+        } catch (DuplicateTitleException e) {
+            bindingResult.rejectValue("title", "", "This movie is already on your watchlist");
+            return new ModelAndView("watchlistItemForm");
         }
-
 
 
         RedirectView redirectView = new RedirectView();
@@ -99,8 +85,8 @@ public class WatchlistController {
 
         Map<String, Object> model = new HashMap<String, Object>();
 
-        model.put("watchlistItems", watchlistItems);
-        model.put("numberOfMovies", watchlistItems.size());
+        model.put("watchlistItems", watchlistService.getWatchlistItems());
+        model.put("numberOfMovies", watchlistService.getWatchlistItemsSize());
 
         return new ModelAndView(viewName, model);
     }

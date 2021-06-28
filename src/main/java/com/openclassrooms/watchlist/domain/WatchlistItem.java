@@ -1,14 +1,16 @@
-package com.openclassrooms.watchlist;
+package com.openclassrooms.watchlist.domain;
 
-import org.springframework.stereotype.Component;
+import com.openclassrooms.watchlist.validation.GoodMovie;
+import com.openclassrooms.watchlist.validation.Priority;
+import com.openclassrooms.watchlist.validation.Rating;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 /**
  * The type Watch list item.
  */
+@GoodMovie
 public class WatchlistItem {
 
     @NotBlank(message="Please enter the title")
