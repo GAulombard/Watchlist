@@ -1,5 +1,8 @@
 package com.openclassrooms.watchlist.controller;
 
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class CustomErrorController implements ErrorController {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(CustomErrorController.class);
     /**
      * Gets error path.
      *
@@ -32,9 +36,11 @@ public class CustomErrorController implements ErrorController {
     public ModelAndView handleError(HttpServletResponse response) {
         int code = response.getStatus();
         if (code == 404) {
+            LOGGER.error("Error with code {} happened.",code);
             System.out.println("Error with code "+code+" happened.");
             return new ModelAndView("error404");
         }
+        LOGGER.error("Error with code {} happened.",code);
         System.out.println("Error with code "+code+" happened.");
         return new ModelAndView("error");
     }

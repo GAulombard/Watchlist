@@ -3,6 +3,9 @@ package com.openclassrooms.watchlist.controller;
 import com.openclassrooms.watchlist.domain.WatchlistItem;
 import com.openclassrooms.watchlist.exception.DuplicateTitleException;
 import com.openclassrooms.watchlist.service.WatchlistService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +26,14 @@ import java.util.Map;
 @Controller
 public class WatchlistController {
 
-    private WatchlistService watchlistService = new WatchlistService();
+    private final Logger LOGGER = LoggerFactory.getLogger(WatchlistController.class);
+    private WatchlistService watchlistService;
+
+    @Autowired
+    public WatchlistController(WatchlistService watchlistService) {
+        super();
+        this.watchlistService = watchlistService;
+    }
 
     /**
      * Show watchlist item form model and view.
@@ -33,6 +43,9 @@ public class WatchlistController {
      */
     @GetMapping("/watchlistItemForm")
     public ModelAndView showWatchlistItemForm(@RequestParam(required = false) Integer id) {
+
+        LOGGER.info("HTTP GET request received at /watchlistItemForm");
+
         Map<String, Object> model = new HashMap<>();
 
         WatchlistItem watchlistItem = watchlistService.findWatchlistItemsById(id);
@@ -54,6 +67,8 @@ public class WatchlistController {
      */
     @PostMapping("/watchlistItemForm")
     public ModelAndView submitWatchlistItemForm(@Valid WatchlistItem watchlistItem, BindingResult bindingResult) {
+
+        LOGGER.info("HTTP POST request received at /watchlistItemForm");
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("watchlistItemForm");
@@ -80,6 +95,8 @@ public class WatchlistController {
      */
     @GetMapping("/watchlist")
     public ModelAndView getWatchlist() {
+
+        LOGGER.info("HTTP GET request received at /watchlist");
 
         String viewName = "watchlist";
 
